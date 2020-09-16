@@ -6,12 +6,11 @@
 			* {
 				font-family: Arial, Helvetica, sans-serif;
 				--color-dark: #2b2d42;
-				--color-mid: #8d99ae;
+				--color-mid: #ffffff10;
 				--color-light: #edf2f4;
 				--color-a-light: #ef233c;
 				--color-a-dark: #d90429;
 				color: var(--color-light);
-				background-color: var(--color-dark);
 			}
 			h1, h3 {
 				font-family: Impact, Charcoal, sans-serif;
@@ -21,19 +20,44 @@
 			}
 			body {
 				margin: 0;
-				padding: 0;
-				width: 100vw;
-				height: 100vh;
+				padding: 1em;
+				min-width: calc(100vw - 3em - 1px);
+				min-height: calc(100vh - 2em);
 				display: flex;
 				flex-direction: row;
 				align-items: stretch;
 				justify-content: center;
+				background-color: var(--color-dark);
 			}
 			.container {
 				width: 100%;
 				max-width: 1080px;
 				padding: 1em;
 				background-color: var(--color-mid);
+				border-radius: 1em;
+			}
+			button {
+				border: none;
+				background-color: var(--color-a-light);
+				padding: 1em 2em;
+				border-radius: 0.3em;
+			}
+			input {
+				padding: 0.5em;
+				border-radius: 0.3em;
+				font-size: 1.25em;
+				border: none;
+				color: var(--color-dark);
+			}
+			.bumpRight {
+				margin-left: 1em;
+			}
+			.inputHolder {
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				align-items: center;
+				margin-bottom: 1em;
 			}
 		</style>
 	</head>
@@ -72,8 +96,10 @@
 			<div id="main" style="display: none;">
 				<p>I'm thinking of an integer between <span id="lower">1</span> and <span id="upper">100</span> (inclusive).</p>
 				<p id="prompt" style="display: none;"></p>
-				<input id="inp" type="number">
-				<button id="submit">Submit</button>
+				<div class="inputHolder">
+					<input id="inp" type="number">
+					<button id="submit" class="bumpRight">Submit</button>
+				</div>
 			</div>
 			<button id="play" step="1">Play</button>
 		</div>
@@ -106,7 +132,7 @@
 					console.log('User won!');
 					$("#submit").off("click");
 					$("#prompt")
-						.html(`Correct! You win! The number was indeed ${number}.`);
+						.html(`Correct! You win! The number was indeed ${number}.`)
 						.show();
 				};
 				const higher = (num) => {
