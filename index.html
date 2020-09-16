@@ -114,6 +114,7 @@
 				var upperBound = 100;
 				var lowerBound = 0;
 				const isValidInput = (num) => {
+					console.debug(typeof num, num >= lowerBound, num <= upperBound, num % 1);
 					return !!(
 						typeof num === 'number'
 						&& num >= lowerBound
@@ -162,11 +163,19 @@
 				};
 				const guess = () => {
 					console.log("Checking user guess...");
-					const userGuess = $("#inp").val();
-					console.log("User inputted", userGuess);
+					let isValid = false;
+					let userGuess;
+					try {
+						userGuess = parseInt($("#inp").val());
+						console.log("User inputted", userGuess);
+						isValid = isValidInput(userGuess);
+					} catch(e) {
+						console.warn(e);
+						isValid = false;
+					}
 
 					// validate input
-					if (!isValidInput(userGuess)) {
+					if (!isValid) {
 						$("#prompt").html(`Please enter an integer in the range, not "${userGuess}".`);
 						console.error('Invalid Input', userGuess);
 						return;
@@ -177,7 +186,7 @@
 					} else if (userGuess > number) {
 						lower(userGuess);
 					} else {
-						if (userGuess == number) {
+						if (userGuess === number) {
 							win();
 						} else {
 							console.error("Impossible case hit:", userGuess, number);
