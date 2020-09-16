@@ -2,4 +2,8 @@
 
 This is a small test project.
 
-Currently there are no features yet.
+### Running the Program
+To run the program, simply open the `index.html` file in your browser.
+
+### Features
+* Input numbers to play a game.
