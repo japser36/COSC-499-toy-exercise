@@ -131,6 +131,8 @@
 					lowerBound = Math.round(Math.random() * 100 - Math.random() * 100);
 					// Upper: between (lower + 10) and (lower + 1010)
 					upperBound = Math.round(Math.random() * 1000) + 10 + lowerBound;
+					$("#upper").html(upperBound);
+					$("#lower").html(lowerBound);
 
 					$("#inp").attr({
 						max: upperBound,
