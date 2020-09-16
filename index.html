@@ -51,6 +51,14 @@
 				var number;
 				var upperBound = 100;
 				var lowerBound = 0;
+				const isValidInput = (num) => {
+					return !!(
+						typeof num === 'number'
+						&& num >= lowerBound
+						&& num <= upperBound
+						&& num % 1 === 0 // integer check
+					);
+				}
 				const startGame = () => {
 					console.log("Starting new game...");
 					$("#prompt").hide();
@@ -91,8 +99,15 @@
 				const guess = () => {
 					console.log("Checking user guess...");
 					const userGuess = $("#inp").val();
-					// TODO validate input here.
 					console.log("User inputted", userGuess);
+
+					// validate input
+					if (!isValidInput(userGuess)) {
+						$("#prompt").html(`Please enter an integer in the range, not "${userGuess}".`);
+						console.error('Invalid Input', userGuess);
+						return;
+					}
+
 					if (userGuess < number) {
 						higher(userGuess);
 					} else if (userGuess > number) {
