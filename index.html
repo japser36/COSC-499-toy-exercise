@@ -113,22 +113,47 @@
 				var number;
 				var upperBound = 100;
 				var lowerBound = 0;
+				const isValidInput = (num) => {
+					// check that this is a number, in range, and an integer.
+					return !!(
+						typeof num === 'number'
+						&& num >= lowerBound
+						&& num <= upperBound
+						&& num % 1 === 0 // integer check
+					);
+				}
 				const startGame = () => {
 					console.log("Starting new game...");
+					// clear prompt and button click.
 					$("#prompt").hide();
 					$("#submit").off("click");
 
-					// TODO generate upper and lower bound randomly, based on some conditions.
+					// generate random upper and lower bound.
+					// Lower: between -100 and 100;
+					lowerBound = Math.round(Math.random() * 100 - Math.random() * 100);
+					// Upper: between (lower + 10) and (lower + 1010)
+					upperBound = Math.round(Math.random() * 1000) + 10 + lowerBound;
+					// update tooltip on page.
+					$("#upper").html(upperBound);
+					$("#lower").html(lowerBound);
 
-					$("#inp").val(null);
+					// set input max and min, and clear input value from last game
+					$("#inp").attr({
+						max: upperBound,
+						min: lowerBound,
+					}).val(null);
+					// generate a new random number to guess.
 					number = Math.round(Math.random() * (upperBound - lowerBound) + lowerBound);
 
+					// show the game area, bind the submit button.
 					$("#submit").on("click", guess);
 					$("#main").show();
+					// change "Play" to "New Game"
 					$("#play").html("New Game");
 					console.log("New game started.");
 				};
 				const win = () => {
+					// disable submit button, and tell user they won.
 					console.log('User won!');
 					$("#submit").off("click");
 					$("#prompt")
@@ -136,30 +161,53 @@
 						.show();
 				};
 				const higher = (num) => {
+					// tell user they should go higher.
 					console.debug('Higher!');
 					$("#prompt").html(`Nope, not ${num}. Higher!`).show();
 				};
 				const lower = (num) => {
+					// tell user they should go lower.
 					console.debug('Lower!');
 					$("#prompt").html(`Nope, not ${num}. Lower!`).show();
 				};
 				const guess = () => {
 					console.log("Checking user guess...");
-					const userGuess = $("#inp").val();
-					// TODO validate input here.
-					console.log("User inputted", userGuess);
+					let isValid = false;
+					let userGuess;
+					// get user input and validate it.
+					try {
+						userGuess = parseInt($("#inp").val());
+						console.log("User inputted", userGuess);
+						isValid = isValidInput(userGuess);
+					} catch(e) {
+						console.warn(e);
+						isValid = false;
+					}
+
+					if (!isValid) {
+						// tell the user to input correctly
+						$("#prompt").html(`Please enter an integer in the range, not "${userGuess}".`);
+						console.error('Invalid Input', userGuess);
+						return;
+					}
+
 					if (userGuess < number) {
+						// go higher!
 						higher(userGuess);
 					} else if (userGuess > number) {
+						// go lower!
 						lower(userGuess);
 					} else {
-						if (userGuess == number) {
+						if (userGuess === number) {
+							// you won!
 							win();
 						} else {
+							// something weird happened.
 							console.error("Impossible case hit:", userGuess, number);
 						}
 					}
 				};
+				// activate play button.
 				$("#play").on("click", startGame);
 			});
 		</script>
