@@ -56,9 +56,16 @@
 					$("#prompt").hide();
 					$("#submit").off("click");
 
-					// TODO generate upper and lower bound randomly, based on some conditions.
+					// generate random upper and lower bound.
+					// Lower: between -100 and 100;
+					lowerBound = Math.round(Math.random() * 100 - Math.random() * 100);
+					// Upper: between (lower + 10) and (lower + 1010)
+					upperBound = Math.round(Math.random() * 1000) + 10 + lowerBound;
 
-					$("#inp").val(null);
+					$("#inp").attr({
+						max: upperBound,
+						min: lowerBound,
+					}).val(null);
 					number = Math.round(Math.random() * (upperBound - lowerBound) + lowerBound);
 
 					$("#submit").on("click", guess);
