@@ -7,3 +7,4 @@ To run the program, simply open the `index.html` file in your browser.
 
 ### Features
 * Input numbers to play a game.
+* Looks nice.
