@@ -18,3 +18,5 @@ This function is supposed to accept one argument, and tests if this is a number,
 To run this test, click on the "Test me!" button on the bottom of the document.
 
 I thought about making the random number generator a function, but since it is precisely that and it's output value is unknown, the only thing we could test is that it returns an integer.
+
+This is a small local change!
